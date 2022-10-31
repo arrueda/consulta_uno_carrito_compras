@@ -86,6 +86,7 @@ const setCarrito = objeto => {
     carrito[producto.id] = {...producto}// Incrementa los objeto al array por cada compra
     pintarCarrito()
     console.log("XXX--->",objeto.querySelector('img').getAttribute('src'))
+    console.log("Valor del stock-->",objeto.stock)
 }
 
 const pintarCarrito = () =>{ // Genera un array de objetos con el contenido del carrito
