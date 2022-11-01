@@ -136,6 +136,13 @@ const pintarFooter = () => {
 }
 
 const btnAccion = e => {
+
+    let carritoStock = Object.values(carrito);
+    console.log("Tipo de Valor del stock-->",typeof Object.values(carrito));
+    console.log("Valor del array 1-->",carritoStock);
+    //for (const [stock, value] of Object.entries(carritoStock))
+    //const valorStock = Object.values(carrito).find(element => element == 'stock');
+    console.log("Valor del stock 1-->",carritoStock.stock);
     
     if (e.target.classList.contains('btn-info')) {
         //carrito[e.target.dataset.id]
