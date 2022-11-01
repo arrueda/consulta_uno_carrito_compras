@@ -47,7 +47,7 @@ const pintarCards = data => {
                     <img src="./img/t${producto.id}.png" alt="${producto.title}" class="card-img-top">
                     <h5>${producto.title}</h5>
                     <p>${producto.precio}</p>
-                    <p>Total en stock: ${producto.stock} unidades</p>
+                    <p>Total en stock: <span>${producto.stock}</span> unidades</p>
                     <button class="btn btn-dark" data-id="${producto.id}">Comprar</button>
                 </div>
             </div>
@@ -76,7 +76,8 @@ const setCarrito = objeto => {
         prod:objeto.querySelector('img').getAttribute('src'),
         title: objeto.querySelector('h5').textContent,
         precio: objeto.querySelector('p').textContent,
-        cantidad: 1// Se agrega el valor de defecto en la primera compra del producto
+        cantidad: 1,// Se agrega el valor de defecto en la primera compra del producto
+        stock:objeto.querySelector('span').textContent
     }
 
     if (carrito.hasOwnProperty(producto.id)){// Incrementa la cantidad en compras repetidas
