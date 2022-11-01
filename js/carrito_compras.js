@@ -138,12 +138,23 @@ const pintarFooter = () => {
 
 const btnAccion = e => {
 
-    let carritoStock = Object.values(carrito);
-    console.log("Tipo de Valor del stock-->",typeof Object.values(carrito));
-    console.log("Valor del array 1-->",carritoStock);
+    let arrayCarritoStock = Object.values(carrito);
+    let arrayStock = [];
+    for (let i = 0; i < arrayCarritoStock.length; i++) {
+        for (let key in arrayCarritoStock[i]) { 
+            if (arrayCarritoStock[i].hasOwnProperty(key) && key === "stock") {
+                arrayStock.push(arrayCarritoStock[i][key]);
+            }
+        }
+    }
+    console.log("Prueba de array de stock-->",arrayStock)
+
+    //console.log("Tipo de Valor del stock-->",typeof Object.values(carrito));
+    //console.log("Valor del array 1-->",carritoStock);
     //for (const [stock, value] of Object.entries(carritoStock))
     //const valorStock = Object.values(carrito).find(element => element == 'stock');
-    console.log("Valor del stock 1-->",carritoStock.stock);
+    //console.log("Valor del stock 1-->",carritoStock.id.stock);
+    
     
     if (e.target.classList.contains('btn-info')) {
         //carrito[e.target.dataset.id]
