@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () =>{
     if (localStorage.getItem('carrito')) {
         carrito = JSON.parse(localStorage.getItem('carrito'))
         pintarCarrito()
+        
     }
 })
 
@@ -31,30 +32,31 @@ let fetchData = async ()=>{
         const data = await res.json()
         //console.log(data)
         pintarCards(data)
+        
     } catch (error) {
         console.log(error)
     }
+    
 }
 // Formacion de las celdas de ventas
 
 const pintarCards = data => {
     data.forEach(producto => {
         const row = document.createElement('div')
+        row.classList.add("card","col-3");
         row.innerHTML +=`
-        <div class="row row-cols-4 mb-3">
-            <div class="card">
+            <div class="card mb-3">
                 <div class="card-body">
                     <img src="./img/t${producto.id}.png" alt="${producto.title}" class="card-img-top">
                     <h5>${producto.title}</h5>
                     <p>${producto.precio}</p>
-                    <p>Total en stock: <span>${producto.stock}</span> unidades</p>
+                    <p class="stock">Total en stock: <span>${producto.stock}</span> unidades</p>
                     <button class="btn btn-dark" data-id="${producto.id}">Comprar</button>
                 </div>
-            </div>
-        </div>`;
+            </div>`;
 
         cards.appendChild(row); // Se utiliza una memoria volatil
-    
+        
     });
     
 }
@@ -73,11 +75,12 @@ const addCarrito = e =>{
 const setCarrito = objeto => {
     const producto = {// Forma los campos del carrito
         id: objeto.querySelector('.btn-dark').dataset.id,
+        stock:objeto.querySelector('span').textContent,
         prod:objeto.querySelector('img').getAttribute('src'),
         title: objeto.querySelector('h5').textContent,
         precio: objeto.querySelector('p').textContent,
-        cantidad: 1,// Se agrega el valor de defecto en la primera compra del producto
-        stock:objeto.querySelector('span').textContent
+        cantidad: 1// Se agrega el valor de defecto en la primera compra del producto
+        
     }
 
     if (carrito.hasOwnProperty(producto.id)){// Incrementa la cantidad en compras repetidas
@@ -86,8 +89,8 @@ const setCarrito = objeto => {
 
     carrito[producto.id] = {...producto}// Incrementa los objeto al array por cada compra
     pintarCarrito()
-    console.log("XXX--->",objeto.querySelector('img').getAttribute('src'))
-    console.log("Valor del stock-->",objeto.stock)
+    //console.log("XXX--->",objeto.querySelector('img').getAttribute('src'))
+    
 }
 
 const pintarCarrito = () =>{ // Genera un array de objetos con el contenido del carrito
@@ -104,7 +107,7 @@ const pintarCarrito = () =>{ // Genera un array de objetos con el contenido del 
         const clone = templateCarrito.cloneNode(true)
         fragment.appendChild(clone)
     })
-    console.log('XXX---->',carrito)
+    
     items.appendChild(fragment)
 
     pintarFooter()
@@ -137,25 +140,41 @@ const pintarFooter = () => {
 }
 
 const btnAccion = e => {
-
+    //https://es.stackoverflow.com/questions/511479/como-se-accede-a-un-array-de-objetos-en-javascript
     let arrayCarritoStock = Object.values(carrito);
-    let arrayStock = [];
+    let valorStock = 0;
+    let valorCantidad = 0;
     for (let i = 0; i < arrayCarritoStock.length; i++) {
         for (let key in arrayCarritoStock[i]) { 
             if (arrayCarritoStock[i].hasOwnProperty(key) && key === "stock") {
-                arrayStock.push(arrayCarritoStock[i][key]);
+                valorStock = (arrayCarritoStock[i][key]);
+                
+            }
+            if (arrayCarritoStock[i].hasOwnProperty(key) && key === "cantidad") {
+                valorCantidad = (arrayCarritoStock[i][key]);
             }
         }
+        
     }
-    console.log("Prueba de array de stock-->",arrayStock)
 
-    //console.log("Tipo de Valor del stock-->",typeof Object.values(carrito));
-    //console.log("Valor del array 1-->",carritoStock);
-    //for (const [stock, value] of Object.entries(carritoStock))
-    //const valorStock = Object.values(carrito).find(element => element == 'stock');
-    //console.log("Valor del stock 1-->",carritoStock.id.stock);
+    console.log("Valor del la propiedad stock fuera",valorStock);
+    console.log("Valor del la propiedad cantidad fuera",valorCantidad);
     
+    if (valorStock < (valorCantidad +1)){
+        //colocar un sweetalert
+        Swal.fire({
+            //icon:'warning',
+            imageUrl:'https://i.pinimg.com/originals/14/60/65/146065c2b68c88da7faa0d8b28e26123.gif',
+            imageWidth: 100,
+            imageHeight: 100,
+            title:'ALERTA',
+            html:'<p>Has <b>superado el stock</b> del producto</p>',
+            html:`<p>Has <b>superado el stock</b> del producto. El stock para este producto es de ${valorStock} unidades</p>`,
+            footer:'<p>Debes bajar la cantidad unidades pedidas</p>'
+        })
+    }
     
+
     if (e.target.classList.contains('btn-info')) {
         //carrito[e.target.dataset.id]
         const producto = carrito[e.target.dataset.id]      
@@ -173,7 +192,8 @@ const btnAccion = e => {
         }
         pintarCarrito()
     }
-
+    
 
     e.stopPropagation()// Evita la activacion de cualquier comando aleatorio
 }
+

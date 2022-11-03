@@ -10,6 +10,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <link rel="stylesheet" href="./js/styles.css">
 <!-- https://www.youtube.com/watch?v=JL7Wo-ASah4 -->
+<!-- https://www.youtube.com/watch?v=UcrypywtAm0 -->
 <body>
 
     <!-- Contruccion de la estructura del carrito -->
@@ -27,15 +28,15 @@
                     <th scope="col">Total</th>
                 </tr>
             </thead>
-            <tbody id="items" class="container text-center"></tbody>
+            <tbody id="items" class="container"></tbody>
             <tfoot>
                 <tr id="footer">
                     <th scope="row" colspan="5">Carrito vacío - comience a comprar</th>
                 </tr>
             </tfoot>
         </table>
-        <div class="row">
-            <div class="col" id="cards">
+        <div class="row" id="cards">
+            <div class="col">
 
             </div>
         </div>
@@ -79,5 +80,6 @@
     </div>
 
     <script src="js/carrito_compras.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
