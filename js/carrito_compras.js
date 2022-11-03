@@ -156,7 +156,7 @@ const btnAccion = e => {
         }
         
     }
-
+    console.log("Valor del array",arrayCarritoStock)
     console.log("Valor del la propiedad stock fuera",valorStock);
     console.log("Valor del la propiedad cantidad fuera",valorCantidad);
     
