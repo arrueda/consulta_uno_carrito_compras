@@ -160,7 +160,7 @@ const btnAccion = e => {
     console.log("Valor del la propiedad stock fuera",valorStock);
     console.log("Valor del la propiedad cantidad fuera",valorCantidad);
     
-    if (valorStock < (valorCantidad +1)){
+    if (valorStock <= valorCantidad){
         //colocar un sweetalert
         Swal.fire({
             //icon:'warning',
@@ -170,20 +170,23 @@ const btnAccion = e => {
             title:'ALERTA',
             html:'<p>Has <b>superado el stock</b> del producto</p>',
             html:`<p>Has <b>superado el stock</b> del producto. El stock para este producto es de ${valorStock} unidades</p>`,
-            footer:'<p>Debes bajar la cantidad unidades pedidas</p>'
+            footer:'<p>Debes bajar la cantidad de unidades pedidas</p>'
         })
+        
+    }else{
+        if (e.target.classList.contains('btn-info')) {
+            //carrito[e.target.dataset.id]
+            const producto = carrito[e.target.dataset.id]      
+            producto.cantidad++// Incremento la cantidad en 1 por cada producto
+            carrito[e.target.dataset.id] = {...producto}
+            pintarCarrito()
+            
+        }
+
     }
     
 
-    if (e.target.classList.contains('btn-info')) {
-        //carrito[e.target.dataset.id]
-        const producto = carrito[e.target.dataset.id]      
-        producto.cantidad++// Incremento la cantidad en 1 por cada producto
-        carrito[e.target.dataset.id] = {...producto}
-        pintarCarrito()
-        
-    }
-
+    
     if (e.target.classList.contains('btn-danger')) {
         const producto = carrito[e.target.dataset.id]
         producto.cantidad--// Decrementa la cantidad en 1 por cada producto
