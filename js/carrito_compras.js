@@ -141,48 +141,30 @@ const pintarFooter = () => {
 
 const btnAccion = e => {
     //https://es.stackoverflow.com/questions/511479/como-se-accede-a-un-array-de-objetos-en-javascript
-    let arrayCarritoStock = Object.values(carrito);
-    let valorStock = 0;
-    let valorCantidad = 0;
-    for (let i = 0; i < arrayCarritoStock.length; i++) {
-        for (let key in arrayCarritoStock[i]) { 
-            if (arrayCarritoStock[i].hasOwnProperty(key) && key === "stock") {
-                valorStock = (arrayCarritoStock[i][key]);
-                
-            }
-            if (arrayCarritoStock[i].hasOwnProperty(key) && key === "cantidad") {
-                valorCantidad = (arrayCarritoStock[i][key]);
-            }
-        }
-        
-    }
-    console.log("Valor del array",arrayCarritoStock)
-    console.log("Valor del la propiedad stock fuera",valorStock);
-    console.log("Valor del la propiedad cantidad fuera",valorCantidad);
+            
     
-    if (valorStock <= valorCantidad){
-        //colocar un sweetalert
-        Swal.fire({
+    if (e.target.classList.contains('btn-info')) {
+        //carrito[e.target.dataset.id]
+        const producto = carrito[e.target.dataset.id]
+        
+        if (producto.cantidad < producto.stock){      
+            producto.cantidad++// Incremento la cantidad en 1 por cada producto
+            carrito[e.target.dataset.id] = {...producto}
+            pintarCarrito()
+        }else{
+            Swal.fire({
             //icon:'warning',
             imageUrl:'https://i.pinimg.com/originals/14/60/65/146065c2b68c88da7faa0d8b28e26123.gif',
             imageWidth: 100,
             imageHeight: 100,
             title:'ALERTA',
             html:'<p>Has <b>superado el stock</b> del producto</p>',
-            html:`<p>Has <b>superado el stock</b> del producto. El stock para este producto es de ${valorStock} unidades</p>`,
+            html:`<p>Has <b>superado el stock</b> del producto. El stock para este producto es de ${producto.stock} unidades</p>`,
             footer:'<p>Debes bajar la cantidad de unidades pedidas</p>'
-        })
-        
-    }else{
-        if (e.target.classList.contains('btn-info')) {
-            //carrito[e.target.dataset.id]
-            const producto = carrito[e.target.dataset.id]      
-            producto.cantidad++// Incremento la cantidad en 1 por cada producto
-            carrito[e.target.dataset.id] = {...producto}
-            pintarCarrito()
-            
-        }
+            })
 
+        }
+            
     }
     
 
